@@ -19,6 +19,14 @@
 					'nav@landing': { template: '<top-nav></top-nav>' }
 				},
             })
+			.state('landing.reviews', {
+                url: '/reviews/:id/:streetNum/:streetName/:city/:state/:zip',
+				template: '',
+				views: {
+					'content@landing': { template: '<home-reviews></home-reviews>' },
+					'nav@landing': { template: '<top-nav></top-nav>' }
+				},
+            })
                 
     });
 

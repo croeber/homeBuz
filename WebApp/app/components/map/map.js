@@ -7,7 +7,8 @@ var mainScope = {};
 	
 	angular.module('realtyApp').component('mapCanvas', {
     templateUrl: 'app/components/map/map.html',
-    controller: ['getTempData','getGeocode','$timeout',function(getTempData,getGeocode,$timeout){
+    controller: ['getDataOnMap','getGeocode','$timeout','$state','getMarkerData',
+	function(getDataOnMap,getGeocode,$timeout,$state,getMarkerData){
 		var ctrl = this;
 		var map = new google.maps.Map(document.getElementById('map'), {
 												zoom: 16,
@@ -22,6 +23,10 @@ var mainScope = {};
 		var user = {
 			zipCode : '33140'
 		}
+		ctrl.openListing = function(){
+			
+		};
+		
 		
 		
 		ctrl.initialize = function(){
@@ -81,54 +86,61 @@ var mainScope = {};
 						setOtherMarkers(map)
 					}
 					if (streetNumber && street){
-						var address2 = streetNumber+' ' +street+', '+town+', '+state+', '+country;
-						var iw = new google.maps.InfoWindow();
 						
-						ctrl.listingData = {rating:3,numReviews:18,};
-						ctrl.listingData.numReviews = !isNaN(ctrl.listingData.numReviews) && ctrl.listingData.numReviews > 0 ? 'See '+ctrl.listingData.numReviews +' Comments': 'Add Comment';
-						var contentString = '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x100&location=' + address2 + '&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk">';
-						if (!isNaN(ctrl.listingData.rating) && ctrl.listingData.rating> 0)
-							contentString = contentString +'<br>' + ctrl.listingData.rating+' Star Rating '
-						for (var i = 0 ; i < ctrl.listingData.rating; i++)
-							contentString = contentString + '<span class="glyphicon glyphicon-star"></span>';
-						contentString = contentString + '<br>' 
-									+'<button type="button" class="btn btn-sm btn-success" style="margin-top:3px">'+ctrl.listingData.numReviews+'</button><br>'
-									+'<a href="http://www.zillow.com/homes/'+address2+'_rb/" style="" onclick="askToInstallExtension()">Update Zillow.com Listing</a><br>'
-									+'<a href="http://www.realtor.com" style="" onclick="askToInstallExtension()">Update Realtor.com Listing</a><br>'
-									+'<a href="http://www.trulia.com" style="" onclick="askToInstallExtension()">Update Trulia.com Listing</a><br>'
-						iw.setContent(contentString);
-					}
-				}
-				var marker = new google.maps.Marker({
+						getMarkerData.get().then(function(data){
+							var address2 = streetNumber+' ' +street+', '+town+', '+state+', '+country;
+							var iw = new google.maps.InfoWindow();
+							ctrl.listingData = data;
+							ctrl.listingData.numReviewsText = !isNaN(ctrl.listingData.numReviews) && ctrl.listingData.numReviews > 0 ? 'See '+ctrl.listingData.numReviews +' Comments': 'Add Comment';
+							var contentString = '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x100&location=' + address2 + '&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk">';
+							if (!isNaN(ctrl.listingData.rating) && ctrl.listingData.rating> 0)
+								contentString = contentString +'<br>' + ctrl.listingData.rating+' Star Rating '
+							for (var i = 0 ; i < ctrl.listingData.rating; i++)
+								contentString = contentString + '<span class="glyphicon glyphicon-star"></span>';
+							contentString = contentString + '<br>' 
+							            +'<a href="http://localhost/#/reviews/'+ctrl.listingData.id+'/'+ctrl.listingData.streetNum+'/'+ctrl.listingData.street+'/'+ctrl.listingData.city+'/'+ctrl.listingData.state+'/'+ctrl.listingData.zipCode+'" class="btn btn-sm btn-success" role="button">'+ctrl.listingData.numReviewsText+'</a><br>'
+										+'<a href="http://www.zillow.com/homes/'+address2+'_rb/"  >Update Zillow.com Listing</a><br>'
+										+'<a href="http://www.realtor.com">Update Realtor.com Listing</a><br>'
+										+'<a href="http://www.trulia.com" >Update Trulia.com Listing</a><br>'
+							iw.setContent(contentString);
+							
+							var marker = new google.maps.Marker({
 								map: map,
 								anchorPoint: new google.maps.Point(0, -29)
 							});
-				map.fitBounds(place.geometry.viewport);
-				map.setCenter(place.geometry.location);
-				marker.setIcon(/** @type {google.maps.Icon} */({
-					url: place.icon,
-					size: new google.maps.Size(71, 71),
-					origin: new google.maps.Point(0, 0),
-					anchor: new google.maps.Point(17, 34),
-					scaledSize: new google.maps.Size(35, 35)
-				}));
-				marker.setPosition(place.geometry.location);
-				marker.setVisible(true);
-				if (iw){
-					iw.close();	
-					google.maps.event.addListener(marker, 'click', function () {
-						iw.open(map, marker);
-					});
+							map.fitBounds(place.geometry.viewport);
+							map.setCenter(place.geometry.location);
+							marker.setIcon(/** @type {google.maps.Icon} */({
+								url: place.icon,
+								size: new google.maps.Size(71, 71),
+								origin: new google.maps.Point(0, 0),
+								anchor: new google.maps.Point(17, 34),
+								scaledSize: new google.maps.Size(35, 35)
+							}));
+							marker.setPosition(place.geometry.location);
+							marker.setVisible(true);
+							if (iw){
+								iw.close();	
+								google.maps.event.addListener(marker, 'click', function () {
+									iw.open(map, marker);
+								});
+							}
+							$timeout(function(){
+								map.setZoom(16);
+								map.setCenter(place.geometry.location);
+								google.maps.event.trigger(map, "resize");	
+								
+							},1);
+							google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+								google.maps.event.trigger(map, "resize");
+								map.setCenter(place.geometry.location);
+							});
+						});
+						
+						
+					}
 				}
-				$timeout(function(){
-					map.setZoom(16);
-					map.setCenter(place.geometry.location);
-					google.maps.event.trigger(map, "resize");					
-				},1);
-				google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
-					google.maps.event.trigger(map, "resize");
-					map.setCenter(place.geometry.location);
-				});
+				
 			}
 			});			
 		};
@@ -157,12 +169,14 @@ var mainScope = {};
 		google.maps.event.addListenerOnce(map, 'bounds_changed', function(){
 			google.maps.event.trigger(map, "resize");
 		});				
-		function setOtherMarkers(map){
-			// var iw = new google.maps.InfoWindow();
-			// iw.close();	
-			ctrl.listingsInMap = getTempData.get();
-			var geocoder = new google.maps.Geocoder();
-			ctrl.listingsInMap.forEach(function(item){
+		function setOtherMarkers(map){				
+			
+			getDataOnMap.get().then(function(data){
+				// var iw = new google.maps.InfoWindow();
+				// iw.close();
+				ctrl.listingsInMap = data;
+				var geocoder = new google.maps.Geocoder();
+				ctrl.listingsInMap.forEach(function(item){
 				
 				geocoder.geocode( { 'address': item.streetNum+' '+item.street+', '+item.city+', '+item.state }, function(results, status) {
 				  if (status == google.maps.GeocoderStatus.OK) {
@@ -184,6 +198,8 @@ var mainScope = {};
 				  } 
 				});
 						
+			});
+				
 			});
 		};
 		ctrl.initialize();
