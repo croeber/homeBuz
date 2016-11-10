@@ -90,7 +90,18 @@ var mainScope = {};
 						getMarkerData.get().then(function(data){
 							var address2 = streetNumber+' ' +street+', '+town+', '+state+', '+country;
 							var iw = new google.maps.InfoWindow();
-							ctrl.listingData = data;
+							if (data)
+								ctrl.listingData = data;
+							else{
+								ctrl.listingData = {
+									streetNum:streetNumber,
+									street:street,
+									city:town,
+									state:state,
+									zipCode:postCode
+								}
+							}
+								
 							ctrl.listingData.numReviewsText = !isNaN(ctrl.listingData.numReviews) && ctrl.listingData.numReviews > 0 ? 'See '+ctrl.listingData.numReviews +' Comments': 'Add Comment';
 							var contentString = '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x100&location=' + address2 + '&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk">';
 							if (!isNaN(ctrl.listingData.rating) && ctrl.listingData.rating> 0)

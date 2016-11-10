@@ -55,7 +55,7 @@
 			var defer = $q.defer();
 			$timeout(function(){
 				var data = {id:'1',street:'Nautilus Dr',streetNum:'4411',city:'Miami Beach',zipCode:'33140',state:'FL',rating:3,reviews:13}
-				defer.resolve(data);
+				defer.resolve();
 				
 			},2000);
 			return defer.promise;
@@ -65,31 +65,35 @@
 		}
     });
 	
-	angular.module('realtyApp').factory('getListingData', function($timeout,$q){
+	angular.module('realtyApp').factory('getListingData', function($timeout,$q,$http){
 		var get = function(listing){
 			var defer = $q.defer();
-			$timeout(function(){
-				var data = {id:'1',street:'Nautilus Dr',streetNum:'4411',city:'Miami Beach',zipCode:'33140',state:'FL',rating:3,reviews:13,reviewsOnFile:
-							[
-								{date:'11/1/2015',review:'Has a good backyard',displayName:'Chris'},
-								{date:'11/2/2015',review:'But it looks like it might need a new fence at parts',displayName:'Chris'},
-								{date:'11/3/2015',review:'Hi. I am the active realtor. The owner says he will fix the fence',displayName:'Mary'},
-								{date:'11/6/2015',review:'Great. I really like the home',displayName:'Chris'},
-								{date:'11/11/2015',review:'Hi. I am the owner I look forward to showing of the changes',displayName:'Paul'},
-								{date:'11/12/2015',review:'I love it.',displayName:'Chris'},
-								{date:'11/14/2015',review:'We are excited',displayName:'Chris'},
-								{date:'11/16/2015',review:'Hi. I just saw this home driving by. Can we schedule a showing please. ',displayName:'Mike'},
-								{date:'11/20/2015',review:'Of Course I will message you',displayName:'Mary'},
-								{date:'1/1/2016',review:'We are taking this listing off and I will let you know when it comes back up',displayName:'Mary'},
-								{date:'1/2/2016',review:'Good Luck',displayName:'Chris'},
-								{date:'4/4/2016',review:'Hi we have made some new updates come check them out',displayName:'Paul'},
-								{date:'11/1/2016',review:'Great. Now is a better time for us anyways we will schedule a showing with Mary',displayName:'Chris'}
-							],
+			
+			$http.get('api/index.php/listing?streetNum='+listing.streetNum+'&streetName='+listing.streetName+'&city='+listing.city+'&state='+listing.state+'&id='+listing.id).then(function(res){
+				defer.resolve(res.data);
+			});
+			// $timeout(function(){
+			// 	var data = {id:'1',street:'Nautilus Dr',streetNum:'4411',city:'Miami Beach',zipCode:'33140',state:'FL',rating:3,reviews:13,reviewsOnFile:
+			// 				[
+			// 					{date:'11/1/2015',review:'Has a good backyard',displayName:'Chris'},
+			// 					{date:'11/2/2015',review:'But it looks like it might need a new fence at parts',displayName:'Chris'},
+			// 					{date:'11/3/2015',review:'Hi. I am the active realtor. The owner says he will fix the fence',displayName:'Mary'},
+			// 					{date:'11/6/2015',review:'Great. I really like the home',displayName:'Chris'},
+			// 					{date:'11/11/2015',review:'Hi. I am the owner I look forward to showing of the changes',displayName:'Paul'},
+			// 					{date:'11/12/2015',review:'I love it.',displayName:'Chris'},
+			// 					{date:'11/14/2015',review:'We are excited',displayName:'Chris'},
+			// 					{date:'11/16/2015',review:'Hi. I just saw this home driving by. Can we schedule a showing please. ',displayName:'Mike'},
+			// 					{date:'11/20/2015',review:'Of Course I will message you',displayName:'Mary'},
+			// 					{date:'1/1/2016',review:'We are taking this listing off and I will let you know when it comes back up',displayName:'Mary'},
+			// 					{date:'1/2/2016',review:'Good Luck',displayName:'Chris'},
+			// 					{date:'4/4/2016',review:'Hi we have made some new updates come check them out',displayName:'Paul'},
+			// 					{date:'11/1/2016',review:'Great. Now is a better time for us anyways we will schedule a showing with Mary',displayName:'Chris'}
+			// 				],
 							
-						}
-				defer.resolve(data);
+			// 			}
+			// 	defer.resolve(data);
 				
-			},2000);
+			// },2000);
 			return defer.promise;
 		}
 		return {
