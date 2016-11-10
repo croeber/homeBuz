@@ -25,7 +25,7 @@ class Listing extends CI_Controller {
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 					$curl_scraped_page = curl_exec($ch);
 					$xml = simplexml_load_string($curl_scraped_page);
-					$this->output->set_output(json_encode(array('property' => $prop, 'details' => $xml)));
+					$this->output->set_output(json_encode(array('property' => $prop, 'details' => $xml->response)));
 					break;
 				default:
 					$this->output->set_status_header(404);

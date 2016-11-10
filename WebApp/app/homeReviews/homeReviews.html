@@ -9,13 +9,19 @@
 	
 			<div class="row" id="header-row">
 				<div class="col-lg-6 col-md-6">
-					<h3>{{revCtrl.listing.streetNum}} {{revCtrl.listing.street}}</h3>
-					<h3>{{revCtrl.listing.city}}, {{revCtrl.listing.state}} {{revCtrl.listing.zipCode}}</h3>
+					<h3>{{revCtrl.listing.property.address.street}}    {{revCtrl.listing.property.address.city}}, {{revCtrl.listing.property.address.state}} {{revCtrl.listing.property.address.zipCode}}</h3>
+					<h4>Beds: {{revCtrl.listing.property.bedrooms}}    Baths: {{revCtrl.listing.property.bathrooms}}    Sqft: {{revCtrl.listing.property.finishedSqFt}}</h4>
+					<h4>Lot Size: {{revCtrl.listing.property.lotSizeSqFt}}  Year Built: {{revCtrl.listing.property.yearBuilt}}</h4>
 					<span class="glyphicon glyphicon-star" ng-repeat="i in revCtrl.getNumber(revCtrl.listing.rating) track by $index"></span>			
 			
 				</div>
 				<div class="col-lg-6 col-md-6">
-					<img ng-src="{{revCtrl.listing.imageUrl}}" style="margin:auto;margin-top:10px">
+				<div uib-carousel active="active" style="background-color: transparent;" interval="5000">
+		  
+				  <div uib-slide ng-repeat="item in revCtrl.images.url track by $index" index="$index" >
+				  <img ng-src="{{item}}" style="margin:auto;">
+				  </div>
+				</div>
 				</div>
 				
 			</div>

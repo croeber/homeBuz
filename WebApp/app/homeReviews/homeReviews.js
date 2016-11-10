@@ -16,7 +16,13 @@
 			}
 			getListingData.get(home).then(function(data){
 					ctrl.listing = data;
-					//ctrl.listing.imageUrl = "https://maps.googleapis.com/maps/api/streetview?size=250x150&location="+ctrl.listing.streetNum+" "+ctrl.listing.street+", "+ctrl.listing.city+", "+ctrl.listing.state+", United States&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk"				
+					ctrl.images = {};
+					if (ctrl.listing.details.images && ctrl.listing.details.images.image)
+						ctrl.images = ctrl.listing.details.images.image;
+					else
+						ctrl.images.url = [];
+					ctrl.images.url.push("https://maps.googleapis.com/maps/api/streetview?size=400x300&location="+ctrl.listing.property.address.street+", "+ctrl.listing.property.address.city+", "+ctrl.listing.property.address.state+", United States&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk");
+							
 				});
 			ctrl.getNumber = function(num) {
 				return new Array(num);   

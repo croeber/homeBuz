@@ -37,3 +37,11 @@
 .reviews .main-content-wrapper{
 	    margin-left: 200px;
 }
+.carousel-control{
+	background-image: none !important;
+    color: #0083AD;
+}
+.carousel-inner{
+	height:234px;
+	margin-top:10px;
+}
