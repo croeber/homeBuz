@@ -20,12 +20,8 @@ class Listing extends CI_Controller {
 					$curl_scraped_page = curl_exec($ch);
 					$xml = simplexml_load_string($curl_scraped_page);
 					$prop = $xml->response->results->result;
-					$url = "http://www.zillow.com/webservice/GetUpdatedPropertyDetails.htm?zws-id=X1-ZWz1dvqqhbgz63_aovt1&zpid=".$prop->zpid;
-					$ch = curl_init($url);
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-					$curl_scraped_page = curl_exec($ch);
-					$xml = simplexml_load_string($curl_scraped_page);
-					$this->output->set_output(json_encode(array('property' => $prop, 'details' => $xml->response)));
+					
+					$this->output->set_output(json_encode(array('property' => $prop)));
 					break;
 				default:
 					$this->output->set_status_header(404);
