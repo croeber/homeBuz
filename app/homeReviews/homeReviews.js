@@ -17,7 +17,7 @@
 			getListingData.get(home).then(function(data){
 					ctrl.listing = data;
 					ctrl.images = {};
-					if (ctrl.listing.details.images && ctrl.listing.details.images.image)
+					if (ctrl.listing.details && ctrl.listing.details.images && ctrl.listing.details.images.image)
 						ctrl.images = ctrl.listing.details.images.image;
 					else
 						ctrl.images.url = [];

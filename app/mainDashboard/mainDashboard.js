@@ -68,8 +68,8 @@
 	angular.module('realtyApp').factory('getListingData', function($timeout,$q,$http){
 		var get = function(listing){
 			var defer = $q.defer();
-			
-			$http.get('api/index.php/listing?streetNum='+listing.streetNum+'&streetName='+listing.streetName+'&city='+listing.city+'&state='+listing.state+'&id='+listing.id).then(function(res){
+			//$http.get('api/public/index.php/api/listing').then(function(res){
+			$http.get('api/public/index.php/api/listing?streetNum='+listing.streetNum+'&streetName='+listing.streetName+'&city='+listing.city+'&state='+listing.state+'&id='+listing.id).then(function(res){
 				defer.resolve(res.data);
 			});
 			// $timeout(function(){
