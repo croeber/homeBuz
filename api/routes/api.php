@@ -18,3 +18,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:api');
 
 Route::get('listing', 'ListingController@get');
+Route::get('getListing', 'GetListingController@get');

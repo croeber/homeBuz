@@ -6,11 +6,35 @@
             .ng-hide {
                 display: none !important;
             }
+			body {
+				margin: 0px;
+				font-family: roboto-regular !important;
+				background-color: #fff;
+			}
+			@font-face {
+				font-family: roboto-regular;
+				src: url(../../assets/fonts/Roboto-Regular.ttf);
+			}
         </style>
         
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
         <meta charset="utf-8">
         <title>HomeBuz</title>
+		<script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
+		
+		<script src="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.css" />
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAT7BN7YWQg8cwX7fGKkyOs4v8lsePGfNA",
+    authDomain: "rentbuylive-a7da9.firebaseapp.com",
+    databaseURL: "https://rentbuylive-a7da9.firebaseio.com",
+    storageBucket: "rentbuylive-a7da9.appspot.com",
+    messagingSenderId: "438301136560"
+  };
+  firebase.initializeApp(config);
+</script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!-- CSS Files -->

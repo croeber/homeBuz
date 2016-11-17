@@ -1,21 +1,21 @@
 <link href="app/homeReviews/homeReviews.css" rel="stylesheet" />
 <article class="reviews">
-<div class="sidebar">
-	
-</div>
 
 <section class="main-content-wrapper">
 	<section id="main-content" >
 	
+			<div class="container-fluid">
 			<div class="row" id="header-row">
-				<div class="col-lg-6 col-md-6">
-					<h3>{{revCtrl.listing.property.address.street}}    {{revCtrl.listing.property.address.city}}, {{revCtrl.listing.property.address.state}} {{revCtrl.listing.property.address.zipCode}}</h3>
-					<h4>Beds: {{revCtrl.listing.property.bedrooms}}    Baths: {{revCtrl.listing.property.bathrooms}}    Sqft: {{revCtrl.listing.property.finishedSqFt}}</h4>
-					<h4>Lot Size: {{revCtrl.listing.property.lotSizeSqFt}}  Year Built: {{revCtrl.listing.property.yearBuilt}}</h4>
+				 <div class="col-lg-4 col-md-4">
+					
+					<h1>{{revCtrl.listing.property.address.street}}   </h1>
+					<h2>{{revCtrl.listing.property.address.city}}, {{revCtrl.listing.property.address.state}} {{revCtrl.listing.property.address.zipCode}}<h2>
+					<h3>Beds: {{revCtrl.listing.property.bedrooms}}  <span class="glyphicon glyphicon-certificate"></span>  Baths: {{revCtrl.listing.property.bathrooms}} <span class="glyphicon glyphicon-certificate"></span>   Sqft: {{revCtrl.listing.property.finishedSqFt}}</h3>
+					<h3>Lot Size: {{revCtrl.listing.property.lotSizeSqFt}} <span class="glyphicon glyphicon-certificate"></span> Year Built: {{revCtrl.listing.property.yearBuilt}}</h3>
 					<span class="glyphicon glyphicon-star" ng-repeat="i in revCtrl.getNumber(revCtrl.listing.rating) track by $index"></span>			
 			
-				</div>
-				<div class="col-lg-6 col-md-6">
+				</div> 
+				<div class="col-lg-4 col-md-4">
 				<div uib-carousel active="active" style="background-color: transparent;" interval="5000">
 		  
 				  <div uib-slide ng-repeat="item in revCtrl.images.url track by $index" index="$index" >
@@ -23,7 +23,11 @@
 				  </div>
 				</div>
 				</div>
+				<div class="col-lg-4 col-md-4">
+				<map-canvas latitude="revCtrl.lat"  longitude="revCtrl.long" init-map="true" fetch-map="revCtrl.getMap" listings-in-map="revCtrl.listingsOnMap" ></map-canvas>
+				</div>
 				
+			</div>
 			</div>
 		<hr class="divider"></hr>
 		<section class="container-fluid">

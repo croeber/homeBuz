@@ -20,7 +20,7 @@
 				},
             })
 			.state('landing.reviews', {
-                url: '/reviews/:id/:streetNum/:streetName/:city/:state/:zip',
+                url: '/reviews/:id/:streetNum/:streetName/:city/:state/:zip/:country',
 				template: '',
 				views: {
 					'content@landing': { template: '<home-reviews></home-reviews>' },

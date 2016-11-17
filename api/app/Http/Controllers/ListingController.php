@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ListingController extends Controller
 {
@@ -28,6 +29,8 @@ class ListingController extends Controller
 		$curl_scraped_page = curl_exec($ch);
 		$xml = simplexml_load_string($curl_scraped_page);
 		$prop = $xml->response->results->result;
-        return response()->json(array('property' => $prop));
+		$users = DB::select('select * from Users');
+		
+        return response()->json(array('property' => $prop,'Users'=>$users));
     }
 }

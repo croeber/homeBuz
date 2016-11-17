@@ -19,7 +19,6 @@
 .mapsearched #pac-input{
 	margin-top:5px;
 	margin-bottom:5px;
-	width:90% !important;
 } 
 .mapsearched #map {
     display: block;

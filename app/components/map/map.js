@@ -26,10 +26,86 @@ var mainScope = {};
 		ctrl.openListing = function(){
 			
 		};
+		ctrl.fetchMap = function(address){
+				ctrl.initialize(address);
+			};
 		
-		
-		
-		ctrl.initialize = function(){
+		function tryLoad(address){
+			
+					var street = address.streetName;
+					var town = address.city;
+					var streetNumber = address.streetNum
+					var state = address.state;
+					var postCode = address.zipCode;
+					var country = address.country;
+					if (streetNumber && street){
+						
+						getMarkerData.get({streetNum:streetNumber,streetName:street,city:town,state:state,zipCode:postCode,apartmentNumber:''}).then(function(data){
+							var address2 = streetNumber+' ' +street+', '+town+', '+state+', '+country;
+							//var iw = new google.maps.InfoWindow();
+							if (data){
+								ctrl.listingData = data;
+								ctrl.listingData.streetNum = streetNumber;
+								ctrl.listingData.street = street;
+								ctrl.listingData.city = town;
+								ctrl.listingData.state = state;
+								ctrl.listingData.zipCode = postCode;
+							}
+							else{
+								ctrl.listingData = {
+									listingID:'',
+									streetNum:streetNumber,
+									street:street,
+									city:town,
+									state:state,
+									zipCode:postCode
+								}
+							}
+								
+							ctrl.listingData.numReviewsText = !isNaN(ctrl.listingData.numReviews) && ctrl.listingData.numReviews > 0 ? 'See '+ctrl.listingData.numReviews +' Comments': 'Add Comment';
+							var contentString = '<img src="https://maps.googleapis.com/maps/api/streetview?size=160x80&location=' + address2 + '&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk">';
+							if (!isNaN(ctrl.listingData.rating) && ctrl.listingData.rating> 0)
+								contentString = contentString +'<br>' + ctrl.listingData.rating+' Star Rating '
+							for (var i = 0 ; i < ctrl.listingData.rating; i++)
+								contentString = contentString + '<span class="glyphicon glyphicon-star"></span>';
+							contentString = contentString + '<br>' 
+							            +'<a href="/reviews/'+ctrl.listingData.listingID+'/'+ctrl.listingData.streetNum+'/'+ctrl.listingData.street+'/'+ctrl.listingData.city+'/'+ctrl.listingData.state+'/'+ctrl.listingData.zipCode+'" class="btn btn-xs btn-success" style="margin-top:3px" role="button">'+ctrl.listingData.numReviewsText+'</a><br>'
+							//iw.setContent(contentString);
+							var marker = new google.maps.Marker({
+						map: map,
+						anchorPoint: new google.maps.Point(0, -29)
+					});
+					marker.setVisible(false);
+					
+					marker.setIcon(/** @type {google.maps.Icon} */({
+						url:'https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png',
+						size: new google.maps.Size(71, 71),
+						origin: new google.maps.Point(0, 0),
+						anchor: new google.maps.Point(17, 34),
+						scaledSize: new google.maps.Size(35, 35)
+					}));
+					marker.setPosition(new google.maps.LatLng( ctrl.lat , ctrl.lng));
+					marker.setVisible(true);
+							// if (iw){
+								// iw.close();	
+								// google.maps.event.addListener(marker, 'click', function () {
+									// iw.open(map, marker);
+								// });
+							// }
+							$timeout(function(){
+								map.setZoom(18);
+								google.maps.event.trigger(map, "resize");	
+								
+							},1);
+							google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
+								google.maps.event.trigger(map, "resize");
+							});
+						});
+						
+						
+					}
+		}
+		ctrl.initialize = function(address){
 			
 			
 			if (ctrl.initMap === true){
@@ -38,7 +114,18 @@ var mainScope = {};
 				
 				$timeout(function(){
 					google.maps.event.trigger(map, "resize");
-					if (user !== undefined){
+					if (address){
+						getGeocode.get({address:address.streetNum+' '+address.streetName+ ', '+ address.city+', '+address.state}).then(function(results){
+							ctrl.lat = results.geometry.location.lat();
+							ctrl.lng = results.geometry.location.lng();
+							LoadMap(ctrl.lat,ctrl.lng);
+							tryLoad(address);
+						},function(){
+							ctrl.lat = 25.8176795;
+							ctrl.lng = -80.13727569999998; 
+							LoadMap(ctrl.lat,ctrl.lng);
+						});	
+					} else if (user !== undefined){
 						getGeocode.get({ 'address': user.zipCode}).then(function(results){
 							ctrl.lat = results.geometry.location.lat();
 							ctrl.lng = results.geometry.location.lng();
@@ -87,32 +174,38 @@ var mainScope = {};
 					}
 					if (streetNumber && street){
 						
-						getMarkerData.get().then(function(data){
+						getMarkerData.get({streetNum:streetNumber,streetName:street,city:town,state:state,zipCode:postCode,apartmentNumber:''}).then(function(data){
 							var address2 = streetNumber+' ' +street+', '+town+', '+state+', '+country;
 							var iw = new google.maps.InfoWindow();
-							if (data)
+							if (data){
 								ctrl.listingData = data;
+								ctrl.listingData.streetNum = streetNumber;
+								ctrl.listingData.street = street;
+								ctrl.listingData.city = town;
+								ctrl.listingData.state = state;
+								ctrl.listingData.zipCode = postCode;
+								ctrl.listingData.country = country;
+							}
 							else{
 								ctrl.listingData = {
+									listingID:'',
 									streetNum:streetNumber,
 									street:street,
 									city:town,
 									state:state,
-									zipCode:postCode
+									zipCode:postCode,
+									country:country
 								}
 							}
 								
 							ctrl.listingData.numReviewsText = !isNaN(ctrl.listingData.numReviews) && ctrl.listingData.numReviews > 0 ? 'See '+ctrl.listingData.numReviews +' Comments': 'Add Comment';
-							var contentString = '<img src="https://maps.googleapis.com/maps/api/streetview?size=200x100&location=' + address2 + '&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk">';
+							var contentString = '<img src="https://maps.googleapis.com/maps/api/streetview?size=160x80&location=' + address2 + '&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk">';
 							if (!isNaN(ctrl.listingData.rating) && ctrl.listingData.rating> 0)
 								contentString = contentString +'<br>' + ctrl.listingData.rating+' Star Rating '
 							for (var i = 0 ; i < ctrl.listingData.rating; i++)
 								contentString = contentString + '<span class="glyphicon glyphicon-star"></span>';
 							contentString = contentString + '<br>' 
-							            +'<a href="http://localhost/#/reviews/'+ctrl.listingData.id+'/'+ctrl.listingData.streetNum+'/'+ctrl.listingData.street+'/'+ctrl.listingData.city+'/'+ctrl.listingData.state+'/'+ctrl.listingData.zipCode+'" class="btn btn-sm btn-success" role="button">'+ctrl.listingData.numReviewsText+'</a><br>'
-										+'<a href="http://www.zillow.com/homes/'+address2+'_rb/"  >Update Zillow.com Listing</a><br>'
-										+'<a href="http://www.realtor.com">Update Realtor.com Listing</a><br>'
-										+'<a href="http://www.trulia.com" >Update Trulia.com Listing</a><br>'
+							            +'<a href="/#/reviews/'+ctrl.listingData.listingID+'/'+ctrl.listingData.streetNum+'/'+ctrl.listingData.street+'/'+ctrl.listingData.city+'/'+ctrl.listingData.state+'/'+ctrl.listingData.zipCode+'/'+ctrl.listingData.country+'" class="btn btn-xs btn-success" style="margin-top:3px" role="button">'+ctrl.listingData.numReviewsText+'</a><br>'
 							iw.setContent(contentString);
 							
 							var marker = new google.maps.Marker({
@@ -218,7 +311,9 @@ var mainScope = {};
     controllerAs: 'mapCtrl',
 	bindings:{
 		listingsInMap:'=',
-		initMap:'='
+		initMap:'=',
+		fetchMap:'='
+		
 	}
     });
 	

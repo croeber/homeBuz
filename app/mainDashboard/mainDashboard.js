@@ -50,9 +50,12 @@
 		}
     });
 	
-	angular.module('realtyApp').factory('getMarkerData', function($timeout,$q){
-		var get = function(){
+	angular.module('realtyApp').factory('getMarkerData', function($timeout,$q,$http){
+		var get = function(listing){
 			var defer = $q.defer();
+			$http.get('api/public/index.php/api/getListing?streetNum='+listing.streetNum+'&streetName='+listing.streetName+'&city='+listing.city+'&state='+listing.state+'&apartmentNum='+listing.apartmentNumber).then(function(res){
+				defer.resolve(res.data);
+			});
 			$timeout(function(){
 				var data = {id:'1',street:'Nautilus Dr',streetNum:'4411',city:'Miami Beach',zipCode:'33140',state:'FL',rating:3,reviews:13}
 				defer.resolve();
