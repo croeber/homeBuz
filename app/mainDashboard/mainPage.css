@@ -1,0 +1,18 @@
+﻿.main-ui-view-container{
+	top: 0px;position: absolute;bottom: 0px;right: 0px;left: 0px;padding-right: 0px;padding-left: 0px;
+}
+.mainbar{
+	       margin-top: 52px;
+}
+.modal-dialog{
+	margin-top: 60px;
+}
+.modal-content{
+	border-radius:0px
+}
+.modal-backdrop.in {
+    opacity: .1;
+}
+.sharp-corners{
+	border-radius:0px
+}

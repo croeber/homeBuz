@@ -1,0 +1,139 @@
+<link href="app/user/user.css" rel="stylesheet" />
+<article class="reviews">
+	<section class="main-content-wrapper">
+		<section id="main-content" >
+			<section class="container" style="margin-top:65px">
+				<section class="row">
+					<section class="col-lg-12">
+						<section class="panel panel-default">
+							<div class="panel-heading">
+								<i class="fa fa-cogs fa-2x"></i>
+								<span style="margin-left:20px;font-size:22px;">{{uctrl.userName}}</span>
+								<i class="fa fa-pencil-square-o fa-2x pull-right" role="button" aria-hidden="true" ng-click="uctrl.editUser()" ng-show="uctrl.isUser"></i>
+							</div>
+							<div class="panel-body">
+							    <form ng-submit="uctrl.updateUser()">
+    							    <div class="row">
+    							        <section class="col-lg-12">
+    							            <label for="user" class="control-label">Username:</label>
+    							            <input ng-model="uctrl.user.user.userName" id="user" ng-disabled="uctrl.notEditing" title="Please enter an alpha numeric username of at least 8 characters" pattern="[A-Za-z0-9]{8,50}" class="form-control"/>
+    							        </section>
+    	              <section class="col-lg-6 col-md-6">
+    	                  <label for="firstname" class="control-label">First name:</label>
+    							            <input ng-model="uctrl.user.user.firstName" id="firstname" ng-disabled="uctrl.notEditing" class="form-control"/>
+    							        
+    	              </section>
+    						         <section class="col-lg-6 col-md-6">
+    						             <label for="lastname" class="control-label">Last name:</label>
+    							            <input ng-model="uctrl.user.user.lastName" id="lastname" ng-disabled="uctrl.notEditing" class="form-control"/>
+    							        
+    						         </section>
+                   <section class="col-lg-6 col-md-6">
+                       <label for="city" class="control-label">City:</label>
+    							            <input ng-model="uctrl.user.user.city" id="city" ng-disabled="uctrl.notEditing" class="form-control"/>
+    							        
+                   </section>
+    
+    						          <section class="col-lg-6 col-md-6">
+    						              <label for="state" class="control-label">State:</label>
+    							            <input ng-model="uctrl.user.user.state" id="state" ng-disabled="uctrl.notEditing" class="form-control"/>
+    							        
+    						          </section>
+    
+    						          <section class="col-lg-6 col-md-6">
+    						              <label for="bio" class="control-label">About Me:</label>
+    							             <textarea class="form-control" ng-model="uctrl.user.user.bio" ng-disabled="uctrl.notEditing" id="bio"></textarea>
+    						          </section>
+    						          <section class="col-lg-6 col-md-6">
+    						              <label for="wants" class="control-label">What I am looking for:</label>
+    							             <textarea class="form-control" ng-model="uctrl.user.user.wants" ng-disabled="uctrl.notEditing" id="wants"></textarea>
+    						          </section>
+									  <section class="col-lg-6 col-md-6">
+									  <br>
+                    <button  type="submit" ng-hide="uctrl.notEditing" class="btn btn-default btn-md"> Save</button>
+    						    </section>
+    						    </div>    
+						    </form>
+							<br>
+						    <button ng-click="uctrl.sendFriend()" type="button" ng-hide="uctrl.isUser || uctrl.user.isFriend" class="btn btn-default btn-md"> Send Friend Request</button>
+						    <button ng-click="uctrl.deleteFriend()" type="button" ng-show="uctrl.user.isFriend" class="btn btn-default btn-md"> Unfriend</button>
+    						    
+							</div>
+							
+						
+						</section>
+       <section class="panel panel-default" ng-show="uctrl.user.homes.length>0">
+							<div class="panel-heading" ng-click="uctrl.showHomes=!uctrl.showHomes">
+								<i class="fa fa-cogs fa-2x"></i>
+								<span style="margin-left:20px;font-size:22px;">My Homes</span>
+								<span class="badge pull-right" aria-hidden="true">{{uctrl.homesCount}}</span>
+							</div>
+							<div class="panel-body" ng-show="uctrl.showHomes">
+							
+							    <section class="well" ng-repeat="home in uctrl.user.homes">
+									<section class="row"> 
+							        <section class="col-lg-6 col-md-6">
+							            <img ng-src='{{"https://maps.googleapis.com/maps/api/streetview?size=200x100&location="+home.houseNumber+" "+home.street+", "+home.city+", "+home.region+", United States&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk"}}' style="margin:auto" />
+							        </section>
+							        <section class="col-lg-6 col-md-6">
+							            <h2>{{home.houseNumber}} {{home.street}}</h2>
+							            <h3>{{home.city}}, {{home.region}}</h3>
+							        </section>
+									</section>
+							    </section>
+							</div>
+							
+						
+						</section>
+ <section class="panel panel-default" ng-show="uctrl.user.reviews.length>0">
+							<div class="panel-heading" ng-click="uctrl.showReviews=!uctrl.showReviews">
+								<i class="fa fa-cogs fa-2x"></i>
+								<span style="margin-left:20px;font-size:22px;">My Commented</span>
+								<span class="badge pull-right" aria-hidden="true">{{uctrl.user.reviewsCount}}</span>
+							</div>
+							<div class="panel-body" ng-show="uctrl.showReviews">
+							    <section class="well" ng-repeat="home in uctrl.user.reviews">
+								<section class="row">
+							        <section class="col-lg-6 col-md-6">
+							            <img ng-src='{{"https://maps.googleapis.com/maps/api/streetview?size=200x100&location="+home.houseNumber+" "+home.street+", "+home.city+", "+home.region+", United States&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk"}}' style="margin:auto" />
+							        </section>
+							        <section class="col-lg-6 col-md-6">
+							            <h2>{{home.houseNumber}} {{home.street}}</h2>
+							            <h3>{{home.city}}, {{home.region}}</h3>
+							        </section>
+									</section>
+							    </section>
+							</div>
+							
+						
+						</section>
+ <section class="panel panel-default"  ng-show="uctrl.user.surveys.length>0" >
+							<div class="panel-heading" ng-click="uctrl.showSurveys=!uctrl.showSurveys">
+								<i class="fa fa-cogs fa-2x"></i>
+								<span style="margin-left:20px;font-size:22px;">My Surveys</span>
+							 <span class="badge pull-right" aria-hidden="true">{{uctrl.surveyCount}}</span>
+							</div>
+							<div class="panel-body" ng-show="uctrl.showSurveys">
+							    <section class="well" ng-repeat="home in uctrl.user.surveys">
+								<section class="row">
+							        <section class="col-lg-6 col-md-6">
+							            <img ng-src='{{"https://maps.googleapis.com/maps/api/streetview?size=200x100&location="+home.houseNumber+" "+home.street+", "+home.city+", "+home.region+", United States&key=AIzaSyBqqOMuVejvk6bD4FatH4-N0y1iN7hQXmk"}}' style="margin:auto" />
+							        </section>
+							        <section class="col-lg-6 col-md-6">
+							            <h2>{{home.houseNumber}} {{home.street}}</h2>
+							            <h3>{{home.city}}, {{home.region}}</h3>
+							        </section>
+							        </section>
+							    </section>
+							</div>
+							
+						
+						</section>
+
+
+					</section>
+				</section>
+			</section>
+		</section>
+	</section>
+</article>

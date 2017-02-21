@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /reviews
+Allow: /reviews/1
+Allow: /reviews/2

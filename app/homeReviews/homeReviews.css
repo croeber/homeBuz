@@ -1,0 +1,79 @@
+.fa-star, .fa-star-half-o, .fa-star-o{
+	color:orange;
+}
+#review-row, #header-row{
+	margin-left:15px;
+	margin-right:15px;
+}
+.isFavorite{
+	color:red;
+}
+.rbl-listing-headers span,.rbl-listing-headers h3,.rbl-listing-headers h2,.rbl-listing-headers h1{
+	text-align:center
+}
+.rbl-buttons-shares .btn{
+	border-radius:0px;
+}
+#header-row h3{
+	color:#4b4f56;
+	font-size:18px
+}
+.mapsearched #map {
+    height: 300px !important;
+    width: 300px !important;
+}
+.mapsearched #pac-input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 300px !important;
+}
+#map{
+	margin:auto;
+}
+.rbl-review-map-container{
+	text-align:center;
+}
+#pac-input {
+    width: 300px !important;
+    height: 30px !important;
+    font-size: 14px;
+	margin:auto;
+}
+.reviews .page-header{
+	margin-top:10px;
+}
+.review-panel {
+	border-radius:1px;
+}
+.review-panel .panel-heading{
+	
+}
+.review-panel .panel-body{
+	
+}
+.review-panel .panel-footer{
+	
+}
+.reviews .glyphicon-user{
+	color:#c7c5c5;
+}
+#header-row h1,#header-row h2,#header-row h3{
+	color:#444;
+}
+#header-row .glyphicon-certificate{
+	font-size: 8px;
+    vertical-align: middle;
+}
+.mapsearched #map-row {
+    height: auto !important;
+}
+
+
+.carousel-control{
+	background-image: none !important;
+    color: #0083AD;
+}
+.carousel-inner{
+	height:350px;
+	margin-top:10px;
+}

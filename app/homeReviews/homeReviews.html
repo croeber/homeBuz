@@ -1,0 +1,89 @@
+<link href="app/homeReviews/homeReviews.css" rel="stylesheet" />
+<article class="reviews">
+
+<section class="main-content-wrapper">
+	<section id="main-content" >
+	  <div class="btn-group rbl-buttons-shares" style="width:100% !important">
+				  <button style="width:25%" type="button" class="btn btn-lg btn-default" ng-click="revCtrl.makeComment()"><span class="fa fa-comment"></span><span class="hidden-xs"> Comment / Rate</span></button>
+				  <button style="width:25%" type="button" class="btn btn-lg btn-default" ng-click="revCtrl.dosurvey()"><span class="fa fa-clipboard"></span><span class="hidden-xs"> Survey</span></button>
+				  <button style="width:25%" type="button" class="btn btn-lg btn-default" ng-click="revCtrl.share()"><span class="fa fa-share-alt"></span><span class="hidden-xs"> Share</span></button>
+				  <button style="width:25%" type="button" class="btn btn-lg btn-default" ng-click="revCtrl.makeFavorite()"><span class="fa fa-heart" ng-class="{'isFavorite':revCtrl.isFavorite}"></span><span class="hidden-xs"> {{(revCtrl.isFavorite?'Liked':'Like')}}</span></button>
+				</div>
+			<div class="container-fluid">
+			<div class="row" id="header-row">
+				 <div class="col-lg-4 col-md-4" ng-show="revCtrl.listing.property">
+					<div class="rbl-listing-headers">
+						<h1>{{revCtrl.listing.property.address.street}}   </h1>
+						<h2>{{revCtrl.listing.property.address.city}}, {{revCtrl.listing.property.address.state}} {{revCtrl.listing.property.address.zipCode}}<h2>
+						<h3>Beds: {{revCtrl.listing.property.bedrooms}}  <span class="glyphicon glyphicon-certificate"></span>  Baths: {{revCtrl.listing.property.bathrooms}} <span class="glyphicon glyphicon-certificate"></span>   Sqft: {{revCtrl.listing.property.finishedSqFt}}</h3>
+						<h3>Lot Size: {{revCtrl.listing.property.lotSizeSqFt}} <span class="glyphicon glyphicon-certificate"></span> Year Built: {{revCtrl.listing.property.yearBuilt}}</h3>
+						<h3>
+						<span ng-class="{'fa fa-2x fa-star':revCtrl.rating>0,'fa fa-2x fa-star-o':revCtrl.rating<1}"></span>
+						<span ng-class="{'fa fa-2x fa-star':revCtrl.rating>1,'fa fa-2x fa-star-o':revCtrl.rating<2}"></span>
+						<span ng-class="{'fa fa-2x fa-star':revCtrl.rating>2,'fa fa-2x fa-star-o':revCtrl.rating<3}"></span>
+						<span ng-class="{'fa fa-2x fa-star':revCtrl.rating>3,'fa fa-2x fa-star-o':revCtrl.rating<4}"></span>
+						<span ng-class="{'fa fa-2x fa-star':revCtrl.rating>4,'fa fa-2x fa-star-o':revCtrl.rating<5}"></span>	
+						</h3>						
+					</div>
+				</div> 
+				<div class="col-lg-4 col-md-4">
+				<div uib-carousel active="active" style="background-color: transparent;" interval="5000">
+		  
+				  <div uib-slide ng-repeat="item in revCtrl.images.url track by $index" index="$index" >
+				  <img ng-src="{{item}}" style="margin:auto;">
+				  </div>
+				</div>
+				</div>
+				<div class="col-lg-4 col-md-4">
+					<div class="rbl-review-map-container">
+						<map-canvas latitude="revCtrl.lat"  longitude="revCtrl.long" init-map="true" fetch-map="revCtrl.getMap" listings-in-map="revCtrl.listingsOnMap" ></map-canvas>
+				
+					</div>
+				    </div>
+				
+			</div>
+			<br>
+
+		
+				<div class="col-lg-3 col-md-3 col-sm-6 rbl-surveyItems" ng-repeat="item in revCtrl.survey" ng-if="item.value!=null&&item.type=='rating'">
+					   <label for="{{item.item}}">{{item.name}} </label>				   
+						<span style="color:orange" ng-class="{'fa fa-star':item.value>0,'fa fa-star-o':item.value<.5,'fa fa-star-half-o':item.value>=.5 && item.value<1}"></span>	
+						<span style="color:orange" ng-class="{'fa fa-star':item.value>1,'fa fa-star-o':item.value<1.5,'fa fa-star-half-o':item.value>=1.5 && item.value<2}"></span>	
+						<span style="color:orange" ng-class="{'fa fa-star':item.value>2,'fa fa-star-o':item.value<2.5,'fa fa-star-half-o':item.value>=2.5 && item.value<3}"></span>	
+						<span style="color:orange" ng-class="{'fa fa-star':item.value>3,'fa fa-star-o':item.value<3.5,'fa fa-star-half-o':item.value>=3.5 && item.value<4}"></span>	
+						<span style="color:orange" ng-class="{'fa fa-star':item.value>4,'fa fa-star-o':item.value<4.5,'fa fa-star-half-o':item.value>=4.5 && item.value<5}"></span>	
+						
+						
+					</div>
+			
+			</div>
+		<hr class="divider"></hr>
+		<section class="container-fluid">
+		
+			<section class="row" id="review-row">
+				<section class="panel panel-default review-panel" ng-repeat="item in revCtrl.reviewsOnFile">
+					<section class="panel-heading">
+						<table>
+							<tr>
+								<td>
+									<span class="glyphicon glyphicon-user fa-2x"></span>
+								</td>
+								<td>
+									<span class="col-lg-12" style="color: #365899; font-weight:bold">{{item.userName}}</span>
+									<br>
+									<span class="col-lg-12" style="color: #90949c">{{item.dateEntered}}</span>
+								</td>
+							</tr>
+						</table>
+					
+						
+						
+					</section>
+					<section class="panel-body">{{item.content}}</section>
+				</section>
+			</section>
+		</section>
+
+	</section>
+</section>
+</article>

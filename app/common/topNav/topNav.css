@@ -1,0 +1,99 @@
+#userstopnav .dropdown-menu, #commenttopnav .dropdown-menu, #searchtopnav .dropdown-menu, #envtopnav .dropdown-menu{
+    padding:5px;
+}
+.rbl-topnav-badge{
+	font-size: 10px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 3.5px;
+    padding-right: 3.5px;
+    background-color: red;
+    margin-bottom: 13px;
+}
+.rbl-notRead{
+	background-color:#ddd
+}
+.chat-window .panel{
+	height:auto !important;
+}
+.chat-window .panel-body{
+	overflow: auto;
+    max-height: 250px;
+}
+.msg-container-base .msg-container {
+    padding: 5px 8px !important;
+}
+.chat-msg {
+    padding: 5px 10px !important;
+}
+.chat-window{
+	margin-top: 51px;
+    position: fixed;
+    z-index: 9999999999;
+}
+.chat-top-bar {
+    max-height: 45px;
+}
+.google-login{
+	background: #e0492f;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 136px;
+    height: 38px;
+    line-height: 36px;
+    float: left;
+    margin: 8px 8px;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    text-align: center;
+}
+.major-provider .icon-container{
+    border-right: 1px solid rgba(12,13,14,0.1);
+    box-sizing: border-box;
+    width: 38px;
+    height: 100%;
+    line-height: 1;
+    padding-top: 4px;
+    float: left;
+}
+.major-provider .text{
+	color: #FFF;
+}
+.facebook-login{
+    background: #395697;
+    cursor: pointer;
+    border-radius: 3px;
+    width: 136px;
+    height: 38px;
+    line-height: 36px;
+    float: left;
+    margin: 8px 2px;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    text-align: center;
+}
+.or-container{
+	text-align: center;
+    margin: 0;
+    margin-bottom: 10px;
+    clear: both;
+    color: #6a737c;
+    font-variant: small-caps;
+}
+.or-hr {
+    margin-bottom: 0;
+    position: relative;
+    top: 19px;
+    height: 0;
+    border: 0;
+    border-top: 1px solid #e4e6e8;
+}
+#or {
+    display: inline-block;
+    position: relative;
+    padding: 10px;
+    background-color: #FFF;
+}
+#rbl-login-form{
+	padding:5px
+}

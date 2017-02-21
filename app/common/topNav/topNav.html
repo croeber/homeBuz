@@ -1,0 +1,177 @@
+<link href="app/common/topNav/topNav.css" rel="stylesheet" />
+<nav class="navbar navbar-default navbar-fixed-top" style="z-index:99999">
+  <div class="container-fluid">
+    <div class="navbar-header" style="min-width:300px">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#theNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><i class="fa fa-home"></i>
+          <span class="hidden-xs">RentBuyLive</span>
+      </a>
+      
+         
+          <a data-target="#userstopnav" data-toggle="dropdown" class="dropdown-toggle navbar-brand" role="button" aria-haspopup="true" aria-expanded="false" >
+              <i class="fa fa-users"><span class="badge rbl-topnav-badge" ng-show="ctrl.userData.friendRequests.length > 0">{{ctrl.userData.friendRequests.length}}</span></i>
+          </a>
+          <div id="userstopnav">
+              <ul class="dropdown-menu" style="min-width:500px" ng-if="ctrl.userData.friendRequests.length > 0">
+                	<li ng-repeat="user in ctrl.userData.friendRequests" style="border-bottom:1px solid #ddd;padding: 5px;">
+                	    <span  ng-click="ctrl.user(user.userName)">{{(user.firstName || user.lastName? user.firstName+' '+user.lastName:user.userName)}}
+						</span>
+						<button style="margin-left:5px" title="Deny Friend Request" class="btn btn-xs btn-default pull-right" ng-click="ctrl.processRequest(false,user)"><span class="glyphicon glyphicon-minus"></span> Deny Request</button>
+						
+							<button title="Accept Friend Request" class="btn btn-xs btn-default pull-right" ng-click="ctrl.processRequest(true,user)"><span class="glyphicon glyphicon-plus"></span> Accept Request</button>
+						
+                	    
+                	    
+                	</li>
+            </ul>
+          </div>
+          
+      
+         
+          <!-- 
+		  <a data-target="#envtopnav" class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" >
+              <i class="fa fa-envelope"><span class="badge rbl-topnav-badge" ng-show="ctrl.userData.messages.length > 0">{{ctrl.userData.messages.length}}</span></i>
+          </a>
+          <div id="envtopnav">
+          <ul class="dropdown-menu" style="min-width:300px">
+                hello env
+            </ul>
+            </div> 
+			-->
+       
+         
+          <a data-target="#commenttopnav" class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ng-click="ctrl.clearNotifications();">
+              <i class="fa fa-comments"><span class="badge rbl-topnav-badge" ng-show="ctrl.notificationCount > 0">{{ctrl.notificationCount}}</span></i>
+          </a>
+          <div id="commenttopnav">
+              <ul class="dropdown-menu" style="min-width:300px">
+                <li ng-repeat="not in ctrl.userData.notifications" style="border-bottom:1px solid #ddd;padding: 5px;">
+                	    <a ng-click="ctrl.processNotification(not)" ng-class="{'rbl-notRead':not.isRead == 0}">{{not.content}}
+						</span>
+						
+                	    
+                	    
+                	</li>
+            </ul>
+          </div>
+          
+       
+      
+         
+          <a data-target="#searchtopnav" class="dropdown dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" >
+              <i class="fa fa-search"></i>
+          </a>
+          <div id="searchtopnav">
+              <ul class="dropdown-menu" style="min-width:300px">
+                <form ng-submit="ctrl.searchUsers()" id="rbl-user-search" name="rblusersearchform">
+                				<div class="form-group">
+                			
+                					  <input id="rbl-search-users" type="text" placeholder="Search Users" class="form-control" ng-model="ctrl.userSearched"/>
+                				</div>
+                
+                	</form>
+                	<li ng-repeat="user in ctrl.usersFound">
+						<span  ng-click="ctrl.user(user.userName)">{{(user.firstName || user.lastName? user.firstName+' '+user.lastName:user.userName)}}
+						</span>
+						<button title="Send Message" class="btn btn-xs btn-default pull-right" ng-click="ctrl.sendMessage(user)"><span class="glyphicon glyphicon-envelope"></span> Send Message</button>
+						
+                	    
+                	</li>
+            </ul>
+          </div>
+          
+        
+      
+    </div>
+    <div class="collapse navbar-collapse" id="theNavbar">
+      <ul class="nav navbar-nav">
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+		
+        <!-- <li class="dropdown" ng-show="!ctrl.isAuthed">
+          <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ><span class="glyphicon glyphicon-login"></span> Signup</a>
+          
+		  <ul class="dropdown-menu" style="min-width:300px">
+			<form ng-submit="rblsignupform.$valid && ctrl.createLoginPassword()" id="rbl-login-form" name="rblsignupform">
+				<div class="form-group">
+					<label for="login-email">Email: </label>
+					<input id="login-email" required type="email" placeholder="Email Address" class="form-control" ng-model="ctrl.signupemail"/>
+				</div>
+				<div class="form-group">
+					<label for="login-password">Password: </label>
+					<input type="password" ng-model="ctrl.signuppassword" ng-int="ctrl.signuppassword == ''" id="login-password" name="rblsignuppasswordinput" ng-pattern="/(?=.*[a-z]).{8,16}$/" class="form-control">
+					<span ng-hide="rblsignupform.rblsignuppasswordinput.$valid">Please enter A 8 to 16 character password. </span>
+				</div>
+				<button class="btn btn-md btn-info sharp-corners" type="submit" ><i class="fa fa-sign-in" aria-hidden="true"></i>  Signup</button>
+			</form>
+          </ul>
+        </li> -->
+		<li class="dropdown" ng-init="ctrl.showLogin=true">
+          <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i style="font-size:18px" class="fa fa-user fa-1x" aria-hidden="true"></i></a>
+          <ul class="dropdown-menu" style="min-width:300px">
+			<li ng-show="ctrl.isAuthed" ng-click="ctrl.user()"><a href="">My Account</a></li>
+			<li ng-show="ctrl.isAuthed" ng-click="ctrl.signOut()"><a href="">Sign Out</a></li>
+			<li ng-hide="ctrl.isAuthed" ng-click="ctrl.showSignup=!ctrl.showSignup;ctrl.showLogin=false;$event.stopPropagation();$event.preventDefault();" ng-class="{'active':ctrl.showSignup}"><a href="" >Sign Up</a></li>
+			<li ng-hide="ctrl.isAuthed" ng-click="ctrl.showLogin=!ctrl.showLogin;ctrl.showSignup=false;$event.stopPropagation();$event.preventDefault();" ng-class="{'active':ctrl.showLogin}"><a href="">Login</a></li>
+			<li class="divider" ></li>
+			<form ng-submit="rblsignupform.$valid && ctrl.createLoginPassword()" id="rbl-login-form" name="rblsignupform" ng-show="ctrl.showSignup">
+				<div class="form-group">
+					<label for="login-email">Email: </label>
+					<input id="login-email" required type="email" placeholder="Email Address" class="form-control" ng-model="ctrl.signupemail"/>
+				</div>
+				<div class="form-group">
+					<label for="login-password">Password: </label>
+					<input type="password" ng-model="ctrl.signuppassword" ng-int="ctrl.signuppassword == ''" id="login-password" name="rblsignuppasswordinput" ng-pattern="/(?=.*[a-z]).{8,16}$/" class="form-control">
+					<span ng-hide="rblsignupform.rblsignuppasswordinput.$valid">Please enter A 8 to 16 character password. </span>
+				</div>
+				<button class="btn btn-md btn-info sharp-corners" type="submit" ><i class="fa fa-sign-in" aria-hidden="true"></i>  Signup</button>
+			</form>
+			<div ng-hide="ctrl.isAuthed" ng-if="ctrl.showLogin">
+				<div class="google-login major-provider" ng-click="ctrl.login()">
+					<div class="icon-container"><i style="color:white" class="fa fa-google fa-2x" aria-hidden="true"></i></div>
+					<div class="text"><span>Google</span></div>
+					<br class="cbt">
+				</div>
+				<div class="major-provider facebook-login" ng-click="ctrl.loginFaceBook()">
+					<div class="icon-container"><i class="fa fa-facebook fa-2x" style="color:white" aria-hidden="true"></i></div>
+					<div class="text"><span>Facebook</span></div>
+					<br class="cbt">
+				</div>
+				<div class="or-container">
+					<hr class="or-hr">
+					<div id="or">or</div>
+				</div>
+				<form ng-submit="ctrl.loginEmailPassword()" id="rbl-login-form">
+					<div class="form-group">
+						<label for="login-email">Email: </label> 
+						<input id="login-email" required type="email" placeholder="Email Address" class="form-control"  ng-model="ctrl.loginemail"/>
+					</div>
+					<div class="form-group">
+						<label for="login-password">Password: </label>
+						<input id="login-password" required type="password" placeholder="Password" class="form-control" / ng-model="ctrl.loginpassword">
+					</div>
+					<button class="btn btn-md btn-info sharp-corners" type="submit" ><i class="fa fa-sign-in" aria-hidden="true"></i>  Login</button>
+				</form>
+			</div>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<irontec-simple-chat
+  messages="ctrl.messages"
+  username="ctrl.name"
+  input-placeholder-text=""
+  submit-button-text="Send"
+  title="Messages"
+  theme="material"
+  submit-function="ctrl.sendMessageTo"
+  visible="ctrl.visible"
+  expand-on-new="true">
+</irontec-simple-chat>
